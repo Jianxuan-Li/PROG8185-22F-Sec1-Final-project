@@ -1,0 +1,573 @@
+{
+	"info": {
+		"_postman_id": "80b6c521-3c34-46cc-9438-62922b9fe4c9",
+		"name": "Assignment4",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/user",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Individual User",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"name\": \"GGGGG\",\n  \"email\": \"my@email.com\",\n  \"password\": \"12345678\"\n}"
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/user/639252672bde078e42d9bea4",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"user",
+								"639252672bde078e42d9bea4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/user/639252672bde078e42d9bea4",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"user",
+								"639252672bde078e42d9bea4"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"username\": \"My Name\",\n  \"email\": \"my@email.com\",\n  \"password\": \"12345678\",\n  \"shippingAddress\": \"abcd\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/user",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"user"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Product",
+			"item": [
+				{
+					"name": "Get All Products",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/product",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Individual Product",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/product/638d46457717f5eb27712832",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"product",
+								"638d46457717f5eb27712832"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Product",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/product/638d4887ee4979ffafe74e3d",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"product",
+								"638d4887ee4979ffafe74e3d"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create New Product",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Apple iPhone 14",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "This is a great SmartPhone",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "14.5",
+									"type": "default"
+								},
+								{
+									"key": "shippingCost",
+									"value": "20.30",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/jack/Downloads/Screenshot 2022-12-07 at 20.06.47.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/product",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"product"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Product",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "title",
+									"value": "Updated Title 1",
+									"type": "default"
+								},
+								{
+									"key": "description",
+									"value": "Updated description",
+									"type": "default"
+								},
+								{
+									"key": "price",
+									"value": "11.11",
+									"type": "default"
+								},
+								{
+									"key": "shippingCost",
+									"value": "22.22",
+									"type": "default"
+								},
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/jack/Downloads/Screenshot 2022-11-09 at 13.23.26.png"
+								}
+							],
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/product/638d4a7159be3cfd7c6981ad",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"product",
+								"638d4a7159be3cfd7c6981ad"
+							]
+						}
+					},
+					"response": []
+				}
+			],
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"pm.environment.set(\"server_url\", \"http://localhost:3000\");",
+							"pm.environment.set(\"api_path\", \"/api/v1\");"
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			]
+		},
+		{
+			"name": "Cart",
+			"item": [
+				{
+					"name": "Get Car by User",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/cart/6392528c2bde078e42d9beaa",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"cart",
+								"6392528c2bde078e42d9beaa"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Remove from Cart",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}Cart/1",
+							"host": [
+								"{{server_url}}{{api_path}}Cart"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Add to card",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"user\": \"6392528c2bde078e42d9beaa\",\n  \"products\": [{\n      \"product\": \"639252b32bde078e42d9bead\",\n      \"quantity\": 5\n  }]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/cart",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"cart"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Order",
+			"item": [
+				{
+					"name": "Create Order",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n  \"productId\": 1,\n  \"userID\": 1,\n  \"quantity\": 3,\n  \"price\": 6\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}Order",
+							"host": [
+								"{{server_url}}{{api_path}}Order"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}Order/1",
+							"host": [
+								"{{server_url}}{{api_path}}Order"
+							],
+							"path": [
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Order by User ID",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}Order?userID=1",
+							"host": [
+								"{{server_url}}{{api_path}}Order"
+							],
+							"query": [
+								{
+									"key": "userID",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Comment",
+			"item": [
+				{
+					"name": "Create new comment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "image",
+									"type": "file",
+									"src": "/Users/jack/Downloads/Screenshot 2022-12-07 at 20.06.47.png"
+								},
+								{
+									"key": "user",
+									"value": "6392528c2bde078e42d9beaa",
+									"type": "default"
+								},
+								{
+									"key": "product",
+									"value": "639252b32bde078e42d9bead",
+									"type": "default"
+								},
+								{
+									"key": "rating",
+									"value": "3.4",
+									"type": "default"
+								},
+								{
+									"key": "text",
+									"value": "test test test",
+									"type": "default"
+								}
+							]
+						},
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/comment/",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get all comments",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/comment/",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"comment",
+								""
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comment by id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/comment/639252e32bde078e42d9beb0",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"comment",
+								"639252e32bde078e42d9beb0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "delete a comment",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/comment/639252e32bde078e42d9beb0",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"comment",
+								"639252e32bde078e42d9beb0"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "get comments by product id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{server_url}}{{api_path}}/comment/product/639252b32bde078e42d9bead",
+							"host": [
+								"{{server_url}}{{api_path}}"
+							],
+							"path": [
+								"comment",
+								"product",
+								"639252b32bde078e42d9bead"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "server_url",
+			"value": "http://localhost:3000",
+			"type": "string"
+		},
+		{
+			"key": "api_path",
+			"value": "/api/v1/",
+			"type": "string"
+		}
+	]
+}
