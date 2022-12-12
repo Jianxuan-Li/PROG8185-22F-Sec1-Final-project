@@ -44,7 +44,6 @@ module.exports = {
       chunks: "all",
       name: "vendor",
       cacheGroups: {
-        // 优化: 把常用模块打包到独立的文件
         ...chunks,
       }, // cacheGroups
     },
@@ -132,7 +131,7 @@ module.exports = {
       NODE_ENV: JSON.stringify(process.env.NODE_ENV),
       PATH_PREFIX: JSON.stringify(""),
       API_HOST: JSON.stringify(""),
-      API_PREFIX: JSON.stringify("/api"),
+      API_PREFIX: JSON.stringify("/api/v1"),
       IN_CONTAINER: JSON.stringify(process.env.IN_CONTAINER),
     }), // Define plugin
     new CopyWebpackPlugin({
@@ -164,10 +163,17 @@ module.exports = {
     proxy: {
       // proxy config
       "/api/*": {
-        target: process.env.IN_CONTAINER ? "http://host.docker.internal:8000/" : "http://localhost:8000/",
+        target:  "http://localhost:3000/",
+        changeOrigin: true,
+        // pathRewrite: function (path, req) {
+        //   return path.replace("/api", "");
+        // },
+      },
+      "/upload/*": {
+        target:  "http://localhost:3000/",
         changeOrigin: true,
         pathRewrite: function (path, req) {
-          return path.replace("/api", "");
+          return path.replace("/upload", "");
         },
       },
     },

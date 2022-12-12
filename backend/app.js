@@ -2,6 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import fileUpload from "express-fileupload";
 import notFound from "./middlewares/notfound.js";
+import cors from "cors";
 import { staticPath } from "./config.js";
 
 // Routers
@@ -15,6 +16,7 @@ import orderApis from "./routers/order.js";
 const app = express();
 
 // Middlewares
+app.use(cors());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 app.use(fileUpload());

@@ -20,7 +20,7 @@ export default function Products({ product, onAdded }) {
     <Grid item key={product.id} xs={12} md={4}>
       <Card>
         <CardHeader
-          title={(<Link to={"/product/" + product.id}>{product.name}</Link>)}
+          title={(<Link to={"/product/" + product._id}>{product.title}</Link>)}
           titleTypographyProps={{ align: "center" }}
           subheaderTypographyProps={{
             align: "center"
@@ -33,8 +33,8 @@ export default function Products({ product, onAdded }) {
         <CardContent>
           <img
             className="productImage"
-            src={`${product.img}`}
-            srcSet={`${product.img}`}
+            src={`/upload/${product.image}`}
+            srcSet={`/upload/${product.image}`}
             alt={product.name}
             loading="lazy"
           />
@@ -46,7 +46,7 @@ export default function Products({ product, onAdded }) {
             }}
           >
             <Typography component="h2" variant="h3" color="text.primary">
-              ${product.price}
+              ${product.price["$numberDecimal"]}
             </Typography>
           </Box>
         </CardContent>

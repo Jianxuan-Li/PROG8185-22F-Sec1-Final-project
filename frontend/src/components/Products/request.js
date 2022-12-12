@@ -1,8 +1,9 @@
-import request from "../../utils/request";
+import request from "@utils/request";
+import { API_PRODUCT } from "@constants/apis";
 
 export const fetchProducts = async (data) => {
   return await request({
-    url: "/api/v1/products/",
+    url: API_PRODUCT,
     method: "GET",
     data: data,
   });
