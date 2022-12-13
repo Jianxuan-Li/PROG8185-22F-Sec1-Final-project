@@ -3,6 +3,8 @@ import { useParams } from "react-router-dom";
 import "./products.css";
 import CommentForm from "./commentForm";
 
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import List from "@mui/material/List";
 import ListItem from "@mui/material/ListItem";
 import ListItemText from "@mui/material/ListItemText";
@@ -22,19 +24,30 @@ export default function Products() {
   const [loadingComment, setLoadingComment] = React.useState(true);
 
   React.useEffect(() => {
-    fetchOneProduct(productId).then((res) => {
-      setProduct(res);
-      setLoading(false);
-    });
+    // a random delay to simulate a slow network, the delay between 1 and 3 seconds
+    const delay = Math.floor(Math.random() * 3 + 1) * 1000;
 
-    fetchComments(productId).then((res) => {
-      setComments(res);
-      setLoadingComment(false);
-    });
+    setTimeout(() => {
+      fetchOneProduct(productId).then((res) => {
+        setProduct(res);
+        setLoading(false);
+      });
+
+      fetchComments(productId).then((res) => {
+        setComments(res);
+        setLoadingComment(false);
+      });
+    }, delay);
   }, []);
 
   if (loading || loadingComment) {
-    return <div>Loading...</div>;
+    return (
+      <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
   }
 
   return (
@@ -55,7 +68,9 @@ export default function Products() {
           </div>
           <div className="product-description">{product.description}</div>
         </div>
-        <div className="product-price">${product.price["$numberDecimal"]}/per</div>
+        <div className="product-price">
+          ${product.price["$numberDecimal"]}/per
+        </div>
         <div className="product-comments">
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
