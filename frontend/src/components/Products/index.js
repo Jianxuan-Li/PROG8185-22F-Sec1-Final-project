@@ -24,7 +24,7 @@ export default function Products() {
       <Grid container spacing={5} alignItems="flex-end">
         {products.map((item, index) => {
           // Enterprise card is full width at sm breakpoint
-          return (<Item key={index} product={item} onAdded={setMessage} />);
+          return <Item key={index} product={item} onAdded={setMessage} />;
         })}
       </Grid>
       <CustomerSnackbar message={message} />

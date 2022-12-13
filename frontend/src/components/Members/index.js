@@ -1,4 +1,6 @@
 import React, { useContext } from "react";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 import MemberContext from "../../context/MemberContext";
 import Container from "@mui/material/Container";
 import Table from "@mui/material/Table";
@@ -12,29 +14,76 @@ import { Button } from "@mui/material";
 
 import Form from "./Form";
 
+import {
+  findAllMembers,
+  deleteOneMember,
+  createOneMember,
+  updateOneMember,
+} from "./request";
+
 export default function Members() {
-  const { members, deleteMember, createNewMember, editMember } =
+  const { members, setMembers, deleteMember, createNewMember, editMember } =
     useContext(MemberContext);
 
   const [open, setOpen] = React.useState(false);
   const [edit, setEdit] = React.useState(false);
+  const [loading, setLoading] = React.useState(false);
+
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      findAllMembers().then((res) => {
+        setMembers(res);
+      });
+      setLoading(false);
+    }, 1000);
+  }, []);
+
+  const handleDelete = (id) => {
+    deleteOneMember(id).then(() => {
+      deleteMember(id);
+    });
+  };
+
+  const handleEdit = (data, id) => {
+    updateOneMember(id, data).then((res) => {
+      editMember(id, res);
+    });
+  };
+
+  const handleCreate = (data) => {
+    createOneMember(data).then((res) => {
+      createNewMember(res);
+    });
+  };
+
+  if (loading) {
+    return (
+      <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
       <Button variant="outlined" onClick={() => setOpen(true)}>
         Create new account
       </Button>
-      {open && (
-        <Form onSubmit={createNewMember} onClose={() => setOpen(false)} />
-      )}
+      {open && <Form onSubmit={handleCreate} onClose={() => setOpen(false)} />}
       {edit && (
-        <Form onSubmit={editMember} member={edit} onClose={() => setEdit(false)} />
+        <Form
+          onSubmit={handleEdit}
+          member={edit}
+          onClose={() => setEdit(false)}
+        />
       )}
       <TableContainer component={Paper}>
         <Table aria-label="customized table">
           <TableHead>
             <TableRow>
-              <TableCell>Id </TableCell>
               <TableCell>Name</TableCell>
               <TableCell>Email</TableCell>
               <TableCell>Actions</TableCell>
@@ -45,10 +94,7 @@ export default function Members() {
               return (
                 <TableRow key={index}>
                   <TableCell component="th" scope="row">
-                    {item.id}
-                  </TableCell>
-                  <TableCell component="th" scope="row">
-                    {item.name}
+                    {item.username}
                   </TableCell>
                   <TableCell component="th" scope="row">
                     {item.email}
@@ -56,7 +102,7 @@ export default function Members() {
                   <TableCell component="th" scope="row">
                     <Button
                       variant="primary"
-                      onClick={() => deleteMember(item.id)}
+                      onClick={() => handleDelete(item._id)}
                     >
                       Delete
                     </Button>

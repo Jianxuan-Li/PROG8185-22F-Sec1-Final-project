@@ -66,7 +66,7 @@ router.put("/:id", async (req, res) => {
   try {
     const user = await userModel.findById(id);
     if (user) {
-      user.name = data.name;
+      user.username = data.username;
       user.email = data.email;
       user.password = data.password;
       user.shippingAddress = data.shippingAddress;

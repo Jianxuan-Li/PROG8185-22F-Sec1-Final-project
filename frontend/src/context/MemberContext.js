@@ -1,43 +1,9 @@
 import React from "react";
 import { useState, createContext } from "react";
-import { ShippingAddress } from "../models/models";
 
 export const MemberContext = createContext();
 
-const users = [
-  {
-    id: 1,
-    name: "admin",
-    email: "admin@group.com",
-    password: "admin123",
-    avatar: "/avatar/1.jpg",
-    shippingAddress: new ShippingAddress(),
-  },
-  {
-    id: 2,
-    name: "Aayush",
-    email: "aayush@group.com",
-    password: "admin123",
-    avatar: "/avatar/1.jpg",
-    shippingAddress: new ShippingAddress(),
-  },
-  {
-    id: 3,
-    name: "Jack",
-    email: "jack@group.com",
-    password: "admin123",
-    avatar: "/avatar/2.jpg",
-    shippingAddress: new ShippingAddress(),
-  },
-  {
-    id: 4,
-    name: "Krupa",
-    email: "krupa@group.com",
-    password: "admin123",
-    avatar: "/avatar/3.jpg",
-    shippingAddress: new ShippingAddress(),
-  },
-];
+const users = [];
 
 export const MemberProvider = (props) => {
   const [members, setMembers] = useState(users);
@@ -53,13 +19,13 @@ export const MemberProvider = (props) => {
   };
 
   const deleteMember = (id) => {
-    setMembers(members.filter((member) => member.id !== id));
+    setMembers(members.filter((member) => member._id !== id));
   };
 
   const editMember = (id, updatedMember) => {
     setMembers(
       members.map((member) => {
-        if (member.id === id) {
+        if (member._id === id) {
           return { id, ...updatedMember };
         }
         return member;
@@ -80,6 +46,7 @@ export const MemberProvider = (props) => {
     <MemberContext.Provider
       value={{
         members,
+        setMembers,
         createNewMember,
         deleteMember,
         editMember,

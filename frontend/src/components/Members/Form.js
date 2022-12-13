@@ -15,9 +15,11 @@ const Alert = React.forwardRef(function Alert(props, ref) {
 export default function Form({ onSubmit, onClose, member }) {
   const [message, setMessage] = React.useState(null);
 
-  const [name, setName] = React.useState("");
-  const [email, setEmail] = React.useState("");
-  const [password, setPassword] = React.useState("");
+  const [username, setName] = React.useState((member && member.username) || "");
+  const [email, setEmail] = React.useState((member && member.email) || "");
+  const [password, setPassword] = React.useState(
+    (member && member.password) || ""
+  );
 
   const showMessage = (message) => {
     setMessage(message);
@@ -28,7 +30,7 @@ export default function Form({ onSubmit, onClose, member }) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!name || !email || !password) {
+    if (!username || !email || !password) {
       return showMessage("Please fill all the fields");
     }
 
@@ -39,9 +41,9 @@ export default function Form({ onSubmit, onClose, member }) {
     }
 
     if (member) {
-      onSubmit(member.id, { name, email, password });
+      onSubmit({ username, email, password }, member._id);
     } else {
-      onSubmit({ name, email, password });
+      onSubmit({ username, email, password });
     }
     onClose();
   };
@@ -63,7 +65,7 @@ export default function Form({ onSubmit, onClose, member }) {
           fullWidth
           variant="standard"
           onChange={(e) => setName(e.target.value)}
-          defaultValue={member ? member.name : ""}
+          defaultValue={member ? member.username : ""}
         />
         <TextField
           margin="dense"
