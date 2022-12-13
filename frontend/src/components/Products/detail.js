@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { useParams } from "react-router-dom";
 import "./products.css";
 import CommentForm from "./commentForm";
@@ -10,13 +10,32 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import Avatar from "@mui/material/Avatar";
 import Typography from "@mui/material/Typography";
 import Rating from "@mui/material/Rating";
-import CartContext from "../../context/CartContext";
 import Container from "@mui/material/Container";
+
+import { fetchOneProduct, fetchComments } from "./request";
 
 export default function Products() {
   const { productId } = useParams();
-  const { products } = useContext(CartContext);
-  const product = products.find((item) => item.id === parseInt(productId));
+  const [product, setProduct] = React.useState(null);
+  const [comments, setComments] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [loadingComment, setLoadingComment] = React.useState(true);
+
+  React.useEffect(() => {
+    fetchOneProduct(productId).then((res) => {
+      setProduct(res);
+      setLoading(false);
+    });
+
+    fetchComments(productId).then((res) => {
+      setComments(res);
+      setLoadingComment(false);
+    });
+  }, []);
+
+  if (loading || loadingComment) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
@@ -24,28 +43,30 @@ export default function Products() {
         <div className="product-image">
           <img
             className="productImage"
-            src={`${product.img}`}
-            srcSet={`${product.img}`}
-            alt={product.name}
+            src={`/upload/${product.image}`}
+            srcSet={`/upload/${product.image}`}
+            alt={product.title}
             loading="lazy"
           />
         </div>
         <div className="product-details">
-          <div className="product-title"><h1>{product.name}</h1></div>
+          <div className="product-title">
+            <h1>{product.title}</h1>
+          </div>
           <div className="product-description">{product.description}</div>
         </div>
-        <div className="product-price">${product.price}/per</div>
+        <div className="product-price">${product.price["$numberDecimal"]}/per</div>
         <div className="product-comments">
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {product.comments.map((comment, index) => (
+            {comments.map((comment, index) => (
               <ListItem alignItems="flex-start" key={index}>
                 <ListItemAvatar>
                   <Avatar alt="Remy Sharp" src={comment.user.avatar} />
                 </ListItemAvatar>
                 <ListItemText
-                  primary={comment.user.name}
+                  primary={comment.user.username}
                   secondary={
                     <React.Fragment>
                       <Typography
@@ -56,7 +77,7 @@ export default function Products() {
                       >
                         <Rating
                           name="simple-controlled"
-                          value={comment.rate}
+                          value={comment.rating["$numberDecimal"]}
                           readOnly
                         />
                       </Typography>
@@ -69,7 +90,7 @@ export default function Products() {
           </List>
         </div>
         <div className="product-comment-form">
-            <CommentForm productId={productId} />
+          <CommentForm productId={productId} />
         </div>
       </div>
     </Container>
