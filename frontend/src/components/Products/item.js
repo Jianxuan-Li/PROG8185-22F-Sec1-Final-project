@@ -57,7 +57,7 @@ export default function Products({ product, onAdded }) {
 
             }
             else {
-              onAdded("Item already in cart, updating quantity");
+              onAdded("Item is already in cart!, now updating quantity");
             }
           }}>
             Add to cart
