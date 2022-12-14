@@ -1,5 +1,5 @@
 import request from "@utils/request";
-import { API_MEMBER } from "@constants/apis";
+import { API_MEMBER, API_LOGIN } from "@constants/apis";
 
 export const get = async (url) => {
   return await request({
@@ -19,4 +19,12 @@ export const createOneMember = async (data) => {
     method: "POST",
     data: data,
   });
-}
+};
+
+export const loginMember = async (data) => {
+  return await request({
+    url: API_LOGIN,
+    method: "POST",
+    data: data,
+  });
+};
