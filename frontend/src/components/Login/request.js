@@ -5,7 +5,6 @@ export const get = async (url) => {
   return await request({
     url,
     method: "GET",
-    // data: data,
   });
 };
 

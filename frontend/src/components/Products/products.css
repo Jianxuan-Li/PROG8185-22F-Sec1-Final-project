@@ -22,7 +22,7 @@
 }
 
 .productImage{
-  width: 230px;
-  height: 300px;
+  width:270px;
+  height: 270px;
   object-fit: cover;
 }
