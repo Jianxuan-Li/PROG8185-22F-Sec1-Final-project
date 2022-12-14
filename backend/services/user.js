@@ -34,7 +34,7 @@ router.delete("/:id", async (req, res) => {
     const deletedUser = await userModel.findByIdAndDelete(id);
     if (deletedUser) {
       res.send({ message: "user Deleted" });
-    }else{
+    } else {
       res.status(404).send({ message: "user Not Found." });
     }
   } catch (err) {
@@ -44,19 +44,17 @@ router.delete("/:id", async (req, res) => {
 
 // create product
 router.post("/", (req, res) => {
-    const data = req.body;
-  
-    const user = new userModel(data);
-    user.save((err, user) => {
-      if (err) {
-        res.status(500).send();
-      } else {
-        res.status(201).send(user);
-      }
-    });
+  const data = req.body;
+
+  const user = new userModel(data);
+  user.save((err, user) => {
+    if (err) {
+      res.status(500).send();
+    } else {
+      res.status(201).send(user);
+    }
   });
-
-
+});
 
 // update product
 router.put("/:id", async (req, res) => {
@@ -70,9 +68,24 @@ router.put("/:id", async (req, res) => {
       user.email = data.email;
       user.password = data.password;
       user.shippingAddress = data.shippingAddress;
-      
+
       const updatedUser = await user.save();
       res.send(updatedUser);
+    } else {
+      res.status(404).send({ message: "User Not Found." });
+    }
+  } catch (err) {
+    res.status(404).send({ message: "User Not Found." });
+  }
+});
+
+// login
+router.post("/login", async (req, res) => {
+  const data = req.body;
+  try {
+    const user = await userModel.find({ ...data });
+    if (user && user.length > 0) {
+      res.send(user[0]);
     } else {
       res.status(404).send({ message: "User Not Found." });
     }
