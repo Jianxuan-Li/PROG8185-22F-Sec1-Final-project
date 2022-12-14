@@ -15,7 +15,7 @@ export default function CartItem({ item, removeFromCart }) {
             <img
               src={item.img}
               alt={item.name}
-              style={{ width: "100px", height: "100px" }}
+              style={{ width: "105px", height: "105px" }}
             />
           </Grid>
           <Grid item xs={2}>
@@ -45,7 +45,7 @@ export default function CartItem({ item, removeFromCart }) {
               color="warning"
               onClick={() => removeFromCart(item.id)}
             >
-              Remove
+              - REMOVE
             </Button>
           </Grid>
         </Grid>
