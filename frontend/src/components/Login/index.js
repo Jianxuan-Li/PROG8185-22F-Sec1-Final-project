@@ -48,13 +48,13 @@ export default function AlertDialog({ open, handleClose }) {
         });
         handleClose();
       } else {
-        setMessage("Invalid email or password");
+        setMessage("Credentials are not correct");
         setTimeout(() => {
           setMessage(null);
         }, 3000);
       }
     } catch (error) {
-      setMessage("Invalid email or password");
+      setMessage("Credentials are not correct");
       setTimeout(() => {
         setMessage(null);
       }, 3000);
@@ -72,7 +72,7 @@ export default function AlertDialog({ open, handleClose }) {
         user.email === emailRegister && user.password === passwordRegister
     );
     if (user) {
-      setMessage("User already exists");
+      setMessage("This user already exists");
       setTimeout(() => {
         setMessage(null);
       }, 3000);
