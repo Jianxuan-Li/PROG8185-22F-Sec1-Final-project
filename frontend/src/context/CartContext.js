@@ -7,7 +7,7 @@ export const CartProvider = (props) => {
   const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
 
-  const addToCart = (id) => {
+  const addItemToCart = (id) => {
     const product = products.find((item) => {
       return item.id === id;
     });
@@ -73,7 +73,7 @@ export const CartProvider = (props) => {
         products,
         setProducts,
         cart,
-        addToCart,
+        addToCart: addItemToCart,
         removeFromCart,
         increaseQty,
         decreaseQty,
