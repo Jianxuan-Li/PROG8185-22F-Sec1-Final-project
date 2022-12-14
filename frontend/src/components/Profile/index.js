@@ -18,47 +18,47 @@ export default function Profile() {
     {
       //validate input
       if (shippingAddress.fname === null || shippingAddress.fname === "") {
-        alert("Please enter a first name");
+        alert("Please enter your first name");
         return;
       }
       if (shippingAddress.lname === null || shippingAddress.lname === "") {
-        alert("Please enter a last name");
+        alert("Please enter your last name");
         return;
       }
       if (shippingAddress.address === null || shippingAddress.address === "") {
-        alert("Please enter an address");
+        alert("Please enter your address");
         return;
       }
       if (shippingAddress.city === null || shippingAddress.city === "") {
-        alert("Please enter a city");
+        alert("Please enter your city");
         return;
       }
       if (shippingAddress.state === null || shippingAddress.state === "") {
-        alert("Please enter a state");
+        alert("Please enter your state");
         return;
       }
       if (shippingAddress.zip === null || shippingAddress.zip === "") {
-        alert("Please enter a zip code");
+        alert("Please enter your zip code");
         return;
       }
       if (shippingAddress.phone === null || shippingAddress.phone === "") {
-        alert("Please enter a phone number");
+        alert("Please enter your phone number");
         return;
       }
       if (shippingAddress.email === null || shippingAddress.email === "") {
-        alert("Please enter an email");
+        alert("Please enter your email");
         return;
       }
       if (payment.cardNumber === null || payment.cardNumber === "") {
-        alert("Please enter a card number");
+        alert("Please enter your card number");
         return;
       }
       if (payment.expirationDate === null || payment.expirationDate === "") {
-        alert("Please enter an expiration date");
+        alert("Please enter your expiration date");
         return;
       }
       if (payment.securityCode === null || payment.securityCode === "") {
-        alert("Please enter a security code");
+        alert("Please enter your security code");
         return;
       }
 

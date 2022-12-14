@@ -64,7 +64,7 @@ export default function DenseAppBar() {
           <Badge badgeContent={cart.length} color="success">
             <IconButton
               size="large"
-              aria-label="account of current user"
+              aria-label="account of user"
               aria-controls="menu-appbar"
               aria-haspopup="true"
               color="inherit"
