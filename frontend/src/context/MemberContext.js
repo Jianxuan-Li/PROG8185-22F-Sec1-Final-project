@@ -1,5 +1,6 @@
 import React from "react";
 import { useState, createContext } from "react";
+import { getAuth, clearAuth } from "../utils/storage";
 
 export const MemberContext = createContext();
 
@@ -10,12 +11,18 @@ export const MemberProvider = (props) => {
   const [login, setLogin] = useState(false);
   const [currentUser, setCurrentUser] = useState({});
 
+  React.useEffect(() => {
+    const auth = getAuth();
+    if (auth) {
+      setLogin(true);
+      setCurrentUser(auth);
+    }
+  }, []);
+
   const createNewMember = (newMember) => {
     // user id is the last id + 1
-    const id = members[members.length - 1].id + 1;
-    const newMemberWithId = { id, ...newMember };
-    setMembers([...members, newMemberWithId]);
-    return newMemberWithId;
+    setMembers([...members, newMember]);
+    return newMember;
   };
 
   const deleteMember = (id) => {
@@ -40,6 +47,8 @@ export const MemberProvider = (props) => {
 
   const logout = () => {
     setLogin(false);
+    setCurrentUser({});
+    clearAuth();
   };
 
   return (

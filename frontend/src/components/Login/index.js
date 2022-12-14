@@ -15,7 +15,8 @@ import MuiAlert from "@mui/material/Alert";
 
 import MemberContext from "../../context/MemberContext";
 
-import { createOneMember } from "./request";
+import { createOneMember, loginMember } from "./request";
+import { saveAuth } from "@utils/storage";
 
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
@@ -35,16 +36,24 @@ export default function AlertDialog({ open, handleClose }) {
   const [email, setEmail] = React.useState("aayush@group.com");
   const [password, setPassword] = React.useState("admin123");
 
-  const Login = () => {
-    const user = members.find(
-      (user) => user.email === email && user.password === password
-    );
-
-    if (user) {
-      // log the user in
-      loginUser(user);
-      handleClose();
-    } else {
+  const Login = async () => {
+    try {
+      const user = await loginMember({ email, password });
+      if (user) {
+        // log the user in
+        loginUser(user);
+        saveAuth({
+          username: user.username,
+          email: user.email,
+        });
+        handleClose();
+      } else {
+        setMessage("Invalid email or password");
+        setTimeout(() => {
+          setMessage(null);
+        }, 3000);
+      }
+    } catch (error) {
       setMessage("Invalid email or password");
       setTimeout(() => {
         setMessage(null);

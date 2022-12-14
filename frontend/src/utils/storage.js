@@ -14,11 +14,11 @@ export const getAuth = (remember) => {
 
   return {
     username: storage.getItem("username"),
-    token: storage.getItem("token"),
+    email: storage.getItem("email"),
   };
 };
 
-export const saveAuth = (username, token, authObj, remember) => {
+export const saveAuth = (username, email, remember) => {
   const getStorage = (r) => {
     return r ? localStorage : sessionStorage;
   };
@@ -26,10 +26,8 @@ export const saveAuth = (username, token, authObj, remember) => {
   const storage = getStorage(remember);
 
   storage.setItem("username", username);
-  storage.setItem("email", authObj.email);
-  storage.setItem("token", token);
+  storage.setItem("email", email);
   storage.setItem("remember", remember);
-  storage.setItem("userdata", JSON.stringify(authObj));
 };
 
 export const parseUserData = () => {
