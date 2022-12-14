@@ -15,6 +15,8 @@ import MuiAlert from "@mui/material/Alert";
 
 import MemberContext from "../../context/MemberContext";
 
+import { createOneMember } from "./request";
+
 const Alert = React.forwardRef(function Alert(props, ref) {
   return <MuiAlert elevation={6} ref={ref} variant="filled" {...props} />;
 });
@@ -51,7 +53,7 @@ export default function AlertDialog({ open, handleClose }) {
   };
 
   // register
-  const [name, setName] = React.useState("");
+  const [username, setName] = React.useState("");
   const [emailRegister, setEmailRegister] = React.useState("");
   const [passwordRegister, setPasswordRegister] = React.useState("");
 
@@ -66,13 +68,16 @@ export default function AlertDialog({ open, handleClose }) {
         setMessage(null);
       }, 3000);
     } else {
-      const member = createNewMember({
-        name,
+      const data = {
+        username,
         email: emailRegister,
         password: passwordRegister,
+      };
+      createOneMember(data).then((res) => {
+        createNewMember(res);
+        loginUser(res);
+        handleClose();
       });
-      loginUser(member);
-      handleClose();
     }
   };
 
@@ -86,8 +91,8 @@ export default function AlertDialog({ open, handleClose }) {
     >
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          hint: Please use email &quot;aayush@group.com&quot; and password &quot;admin123&quot; to
-          login as a admin user. <br />
+          hint: Please use email &quot;aayush@group.com&quot; and password
+          &quot;admin123&quot; to login as a admin user. <br />
           all emails allowed to use: admin@group.com, aayush@group.com,
           jack@group.com, krupa@group.com <br />
           if a new user registed, the user will be logged in automatically.
