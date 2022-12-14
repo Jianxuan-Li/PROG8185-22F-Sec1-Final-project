@@ -13,18 +13,20 @@ export const getAuth = (remember) => {
   }
 
   return {
+    id: storage.getItem("id"),
     username: storage.getItem("username"),
     email: storage.getItem("email"),
   };
 };
 
-export const saveAuth = (username, email, remember) => {
+export const saveAuth = (id, username, email, remember) => {
   const getStorage = (r) => {
     return r ? localStorage : sessionStorage;
   };
 
   const storage = getStorage(remember);
 
+  storage.setItem("id", id);
   storage.setItem("username", username);
   storage.setItem("email", email);
   storage.setItem("remember", remember);

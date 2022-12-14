@@ -13,16 +13,16 @@ export default function CartItem({ item, removeFromCart }) {
         <Grid container direction={"row"}>
           <Grid item xs={2}>
             <img
-              src={item.img}
-              alt={item.name}
+              src={"/upload/" + item.image}
+              alt={item.title}
               style={{ width: "105px", height: "105px" }}
             />
           </Grid>
           <Grid item xs={2}>
-            <h3>{item.name}</h3>
+            <h3>{item.title}</h3>
           </Grid>
           <Grid item xs={2}>
-            Price: ${item.price}
+            Price: ${item.price["$numberDecimal"]}
           </Grid>
           <Grid item xs={2}>
             Qty: {item.qty}

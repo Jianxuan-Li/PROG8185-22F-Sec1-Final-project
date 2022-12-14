@@ -13,6 +13,13 @@ export default function Products() {
   const { products, setProducts } = useContext(CartContext);
   const [message, setMessage] = React.useState(null);
 
+  const handleAlert = (message) => {
+    setMessage(message);
+    setTimeout(() => {
+      setMessage(null);
+    }, 3000);
+  };
+
   React.useEffect(() => {
     fetchProducts().then((res) => {
       setProducts(res);
@@ -24,7 +31,7 @@ export default function Products() {
       <Grid container spacing={5} alignItems="flex-end">
         {products.map((item, index) => {
           // Enterprise card is full width at sm breakpoint
-          return <Item key={index} product={item} onAdded={setMessage} />;
+          return <Item key={index} product={item} onAdded={handleAlert} />;
         })}
       </Grid>
       <CustomerSnackbar message={message} />

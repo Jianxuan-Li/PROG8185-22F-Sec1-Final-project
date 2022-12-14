@@ -9,14 +9,14 @@ export const CartProvider = (props) => {
 
   const addItemToCart = (id) => {
     const product = products.find((item) => {
-      return item.id === id;
+      return item._id === id;
     });
     //check if product is already in cart
-    const inCart = cart.find((item) => (item.id === id ? true : false));
+    const inCart = cart.find((item) => (item._id === id ? true : false));
     if (inCart) {
       setCart(
         cart.map((item) =>
-          item.id === id ? { ...item, qty: item.qty + 1 } : item
+          item._id === id ? { ...item, qty: item.qty + 1 } : item
         )
       );
       return false;
@@ -27,18 +27,18 @@ export const CartProvider = (props) => {
   };
 
   const removeFromCart = (id) => {
-    const product = cart.find((item) => item.id === id);
-    setCart((prevState) => prevState.filter((item) => item.id !== product.id));
+    const product = cart.find((item) => item._id === id);
+    setCart((prevState) => prevState.filter((item) => item._id !== product.id));
   };
 
   const increaseQty = (id) => {
-    const product = cart.find((item) => item.id === id);
+    const product = cart.find((item) => item._id === id);
     product.qty += 1;
     setCart((prevState) => [...prevState]);
   };
 
   const decreaseQty = (id) => {
-    const product = cart.find((item) => item.id === id);
+    const product = cart.find((item) => item._id === id);
     if (product.qty > 1) {
       product.qty -= 1;
       setCart((prevState) => [...prevState]);
@@ -47,7 +47,7 @@ export const CartProvider = (props) => {
 
   //get subtotal
   const getSubtotal = () => {
-    return cart.reduce((acc, item) => acc + item.price * item.qty, 0);
+    return cart.reduce((acc, item) => acc + item.price["$numberDecimal"] * item.qty, 0);
   };
 
   //get tax amount
@@ -61,7 +61,7 @@ export const CartProvider = (props) => {
   };
   const addComment = (id, comment) => {
     const product = products.find((item) => {
-      return item.id === parseInt(id);
+      return item._id === parseInt(id);
     });
     product.comments.push(comment);
     setProducts((prevState) => [...prevState, product]);

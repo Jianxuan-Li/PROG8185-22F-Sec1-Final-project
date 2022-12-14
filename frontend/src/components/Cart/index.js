@@ -9,8 +9,6 @@ export default function Products() {
   const { cart, removeFromCart, getSubtotal, getTax, getTotal } =
     useContext(CartContext);
 
-  console.log(cart);
-
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
       {/* check if cart is empty */}
@@ -23,7 +21,7 @@ export default function Products() {
           <Stack spacing={2}>
             {cart.map((item) => (
               <CartItem
-                key={item.id}
+                key={item._id}
                 item={item}
                 removeFromCart={removeFromCart}
               />

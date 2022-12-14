@@ -42,10 +42,7 @@ export default function AlertDialog({ open, handleClose }) {
       if (user) {
         // log the user in
         loginUser(user);
-        saveAuth({
-          username: user.username,
-          email: user.email,
-        });
+        saveAuth(user._id, user.username, user.email);
         handleClose();
       } else {
         setMessage("Credentials are not correct");

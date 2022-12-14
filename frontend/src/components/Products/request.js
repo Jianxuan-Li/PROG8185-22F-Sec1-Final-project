@@ -1,5 +1,5 @@
 import request from "@utils/request";
-import { API_PRODUCT, API_COMMENT } from "@constants/apis";
+import { API_PRODUCT, API_COMMENT, API_CART } from "@constants/apis";
 
 export const get = async (url) => {
   return await request({
@@ -19,4 +19,12 @@ export const fetchOneProduct = async (id) => {
 
 export const fetchComments = async (id) => {
   return await get(API_COMMENT + "/" + id);
-}
+};
+
+export const addToCart = async (data) => {
+  return await request({
+    url: API_CART,
+    method: "POST",
+    data: data,
+  });
+};
