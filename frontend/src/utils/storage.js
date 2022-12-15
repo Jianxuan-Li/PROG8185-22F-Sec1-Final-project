@@ -8,7 +8,7 @@ export const getAuth = (remember) => {
 
   const storage = getStorage(remember);
 
-  if (!storage.getItem("username") || !storage.getItem("token")) {
+  if (!storage.getItem("username")) {
     return false;
   }
 

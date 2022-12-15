@@ -15,13 +15,23 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import Login from "./Login";
 
+import { getAuth } from "../utils/storage";
 import MemberContext from "../context/MemberContext";
 
 export default function DenseAppBar() {
   const { cart } = React.useContext(CartContext);
+  const { login, logout, loginUser } = useContext(MemberContext);
+
   let navigate = useNavigate();
 
-  const { login, logout } = useContext(MemberContext);
+  React.useEffect(() => {
+    const auth = getAuth();
+    console.log("auth", auth);
+    if (auth) {
+      loginUser(auth);
+    }
+  }, []);
+
 
   // login dialog
   const [open, setOpen] = React.useState(false);
