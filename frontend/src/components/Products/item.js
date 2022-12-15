@@ -19,7 +19,8 @@ export default function Products({ product, onAdded }) {
     try {
       const data = {
         user: getItem("id"),
-        products: [{ product: id, qty: 1 }],
+        product: id,
+        quantity: 1,
       };
       if (await addToCart(data)) {
         onAdded("added to cart");

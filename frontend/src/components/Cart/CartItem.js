@@ -6,6 +6,7 @@ import { Container, Grid } from "@mui/material";
 
 export default function CartItem({ item, removeFromCart }) {
   const { increaseQty, decreaseQty } = useContext(CartContext);
+  console.log(item);
 
   return (
     <Container>

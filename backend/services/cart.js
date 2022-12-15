@@ -16,16 +16,13 @@ router.get("/", async (req, res) => {
   res.send(users);
 });
 
-
 // get all carts of a user
-router.get("/:userId", async (req, res) => {
+router.get("/user/:userId", async (req, res) => {
   const { userId } = req.params;
   const carts = await cartModel.find
-    ({ user: userId });
+    ({ user: userId }).populate('product');
   res.send(carts);
 });
-
-
 
 router.get("/:id", async (req, res) => {
   const id = req.params.id;

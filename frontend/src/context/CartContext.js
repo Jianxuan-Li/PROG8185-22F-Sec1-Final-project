@@ -47,7 +47,10 @@ export const CartProvider = (props) => {
 
   //get subtotal
   const getSubtotal = () => {
-    return cart.reduce((acc, item) => acc + item.price["$numberDecimal"] * item.qty, 0);
+    return cart.reduce(
+      (acc, item) => acc + item.price["$numberDecimal"] * item.qty,
+      0
+    );
   };
 
   //get tax amount
@@ -73,6 +76,7 @@ export const CartProvider = (props) => {
         products,
         setProducts,
         cart,
+        setCart,
         addToCart: addItemToCart,
         removeFromCart,
         increaseQty,
