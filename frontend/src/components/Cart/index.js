@@ -13,31 +13,6 @@ export default function Products() {
 
   React.useEffect(() => {
     fetchCart().then((res) => {
-      // extra product and qty from response and set to cart
-      /*
-      [{
-        "_id": "639a96c5c7533eac5bad7bc9",
-        "user": "6399eee96897670352fc29e9",
-        "product": {
-            "_id": "639252b32bde078e42d9bead",
-            "title": "Apple iPhone 14",
-            "description": "This is a great SmartPhone",
-            "image": "image/ug50Y0Ghh.png",
-            "price": {
-                "$numberDecimal": "14.5"
-            },
-            "shippingCost": {
-                "$numberDecimal": "20.30"
-            },
-            "__v": 0,
-            "createdAt": "2022-12-15T03:38:52.751Z"
-        },
-        "quantity": 1,
-        "createdAt": "2022-12-15T03:38:45.968Z",
-        "__v": 0
-    },
-      // ...]
-      */
       const newCart = res.map((item) => {
         return {
           ...item.product,

@@ -84,4 +84,43 @@ router.put("/:id", async (req, res) => {
   }
 });
 
+// add quantity
+router.put("/add/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const cart = await cartModel.findById(id);
+    if (cart) {
+      cart.quantity = cart.quantity + 1;
+      const updatedcart = await cart.save();
+      res.send(updatedcart);
+    } else {
+      res.status(404).send({ message: "cart Not Found." });
+    }
+  } catch (err) {
+    res.status(404).send({ message: "cart Not Found." });
+  }
+});
+
+// reduce quantity
+router.put("/reduce/:id", async (req, res) => {
+  const id = req.params.id;
+
+  try {
+    const cart = await cartModel.findById(id);
+    if (cart) {
+      if (cart.quantity == 1) {
+        cart.quantity = 1;
+      }
+      cart.quantity = cart.quantity - 1;
+      const updatedcart = await cart.save();
+      res.send(updatedcart);
+    } else {
+      res.status(404).send({ message: "cart Not Found." });
+    }
+  } catch (err) {
+    res.status(404).send({ message: "cart Not Found." });
+  }
+});
+
 export default router;

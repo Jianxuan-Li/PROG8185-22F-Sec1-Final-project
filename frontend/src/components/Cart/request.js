@@ -14,3 +14,24 @@ export const get = async (url) => {
 export const fetchCart = async () => {
   return await get(API_CART + "/user/" + getItem("id"));
 };
+
+export const addQuantity = async (id) => {
+  return await request({
+    url: API_CART + "/add/" + id,
+    method: "PUT",
+  });
+};
+
+export const reduceQuantity = async (id) => {
+  return await request({
+    url: API_CART + "/reduce/" + id,
+    method: "PUT",
+  });
+};
+
+export const removeItem = async (id) => {
+  return await request({
+    url: API_CART + "/" + id,
+    method: "DELETE",
+  });
+};

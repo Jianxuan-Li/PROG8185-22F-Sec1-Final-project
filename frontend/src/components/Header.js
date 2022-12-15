@@ -15,23 +15,36 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 import Login from "./Login";
 
-import { getAuth } from "../utils/storage";
+import { getAuth, getItem } from "../utils/storage";
 import MemberContext from "../context/MemberContext";
+import { fetchCart } from "./Cart/request";
 
 export default function DenseAppBar() {
-  const { cart } = React.useContext(CartContext);
+  const { cart, setCart } = React.useContext(CartContext);
   const { login, logout, loginUser } = useContext(MemberContext);
 
   let navigate = useNavigate();
 
+  const syncCart = async () => {
+    fetchCart().then((res) => {
+      const newCart = res.map((item) => {
+        return {
+          ...item.product,
+          qty: item.quantity,
+          id: item._id,
+        };
+      });
+      setCart(newCart);
+    });
+  };
+
   React.useEffect(() => {
     const auth = getAuth();
-    console.log("auth", auth);
     if (auth) {
       loginUser(auth);
+      syncCart();
     }
   }, []);
-
 
   // login dialog
   const [open, setOpen] = React.useState(false);
@@ -47,6 +60,7 @@ export default function DenseAppBar() {
   // logout
   const handleLogout = () => {
     logout();
+    setCart([]);
     navigate("/");
   };
 
@@ -108,7 +122,7 @@ export default function DenseAppBar() {
               sx={{ ml: 2 }}
             >
               <Link to="/profile" className="navLink">
-                Profile
+                {getItem("username")}
               </Link>
             </Typography>
           )}

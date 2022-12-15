@@ -4,9 +4,25 @@ import { CartContext } from "../../context/CartContext";
 import React, { useContext } from "react";
 import { Container, Grid } from "@mui/material";
 
+import { addQuantity, reduceQuantity, removeItem } from "./request";
+
 export default function CartItem({ item, removeFromCart }) {
   const { increaseQty, decreaseQty } = useContext(CartContext);
-  console.log(item);
+
+  const handleIncreaseQty = async (id) => {
+    await addQuantity(id);
+    increaseQty(item.id);
+  };
+
+  const handleDecreaseQty = async (id) => {
+    await reduceQuantity(id);
+    decreaseQty(item.id);
+  };
+
+  const handleRemoveItem = async (id) => {
+    await removeItem(id);
+    removeFromCart(item.id);
+  };
 
   return (
     <Container>
@@ -29,12 +45,15 @@ export default function CartItem({ item, removeFromCart }) {
             Qty: {item.qty}
           </Grid>
           <Grid item xs={2}>
-            <Button variant="contained" onClick={() => increaseQty(item.id)}>
+            <Button
+              variant="contained"
+              onClick={() => handleIncreaseQty(item.id)}
+            >
               +
             </Button>
             <Button
               variant="contained"
-              onClick={() => decreaseQty(item.id)}
+              onClick={() => handleDecreaseQty(item.id)}
               disabled={item.qty < 2 ? true : false}
             >
               -
@@ -44,7 +63,7 @@ export default function CartItem({ item, removeFromCart }) {
             <Button
               variant="contained"
               color="warning"
-              onClick={() => removeFromCart(item.id)}
+              onClick={() => handleRemoveItem(item.id)}
             >
               - REMOVE
             </Button>
