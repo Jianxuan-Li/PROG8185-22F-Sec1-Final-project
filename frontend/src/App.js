@@ -1,6 +1,7 @@
 import React from "react";
 import CssBaseline from "@mui/material/CssBaseline";
 import Header from "./components/Header";
+import Footer from "./components/Footer";
 import Products from "./components/Products";
 import Members from "./components/Members";
 import Cart from "./components/Cart";
@@ -26,6 +27,7 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/profile" element={<Profile />} />
         </Routes>
+        <Footer />
       </BrowserRouter>
     </React.Fragment>
   );
