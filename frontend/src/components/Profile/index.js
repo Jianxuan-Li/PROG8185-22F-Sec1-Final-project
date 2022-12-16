@@ -1,243 +1,105 @@
-import { FormControl, Input, Container, Button, Snackbar } from "@mui/material";
-import React, { useContext } from "react";
+import React from "react";
+import moment from "moment";
 
-import MemberContext from "../../context/MemberContext";
-import { Payment, ShippingAddress } from "../../models/models";
-import { useNavigate } from "react-router-dom";
-import CustomSnackbar from "../CustomSnackbar";
+import { Box, CircularProgress, Container } from "@mui/material";
+import {
+  List,
+  ListItem,
+  ListItemText,
+  ListItemAvatar,
+  Avatar,
+  Collapse,
+  Divider,
+} from "@mui/material";
 
-export default function Profile() {
-  let navigate = useNavigate();
-  const { currentUser } = useContext(MemberContext);
-  const [message, setMessage] = React.useState(null);
+import { findOrderByUser } from "./request";
 
-  var shippingAddress = new ShippingAddress();
-  var payment = new Payment();
+export default function MyOrders() {
+  const [loading, setLoading] = React.useState(false);
+  const [orders, setOrders] = React.useState([]);
 
-  var onClick = function () {
-    {
-      //validate input
-      if (shippingAddress.fname === null || shippingAddress.fname === "") {
-        alert("Please enter your first name");
-        return;
-      }
-      if (shippingAddress.lname === null || shippingAddress.lname === "") {
-        alert("Please enter your last name");
-        return;
-      }
-      if (shippingAddress.address === null || shippingAddress.address === "") {
-        alert("Please enter your address");
-        return;
-      }
-      if (shippingAddress.city === null || shippingAddress.city === "") {
-        alert("Please enter your city");
-        return;
-      }
-      if (shippingAddress.state === null || shippingAddress.state === "") {
-        alert("Please enter your state");
-        return;
-      }
-      if (shippingAddress.zip === null || shippingAddress.zip === "") {
-        alert("Please enter your zip code");
-        return;
-      }
-      if (shippingAddress.phone === null || shippingAddress.phone === "") {
-        alert("Please enter your phone number");
-        return;
-      }
-      if (shippingAddress.email === null || shippingAddress.email === "") {
-        alert("Please enter your email");
-        return;
-      }
-      if (payment.cardNumber === null || payment.cardNumber === "") {
-        alert("Please enter your card number");
-        return;
-      }
-      if (payment.expirationDate === null || payment.expirationDate === "") {
-        alert("Please enter your expiration date");
-        return;
-      }
-      if (payment.securityCode === null || payment.securityCode === "") {
-        alert("Please enter your security code");
-        return;
-      }
-
-      //TODO: Save address
-
-      currentUser.shippingAddress = shippingAddress;
-      currentUser.payment = payment;
-
-      setMessage("Profile updated");
-
-      //goto home home
-
-      setTimeout(() => {
-        navigate("/");
-      }, 3000);
-
-      //show snackbar mui
-
-      Snackbar.open({
-        message: "Profile Saved",
-        key: "profileSaved",
-        action: (
-          <Button
-            color="inherit"
-            size="small"
-            onClick={() => {
-              //do something
-            }}
-          >
-            Close
-          </Button>
-        ),
+  React.useEffect(() => {
+    setLoading(true);
+    setTimeout(() => {
+      findOrderByUser().then((res) => {
+        console.log(res);
+        setOrders(res);
+        setLoading(false);
       });
-    }
+    }, 1000);
+  }, []);
+
+  if (loading) {
+    return (
+      <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
+        <Box sx={{ display: "flex", justifyContent: "center" }}>
+          <CircularProgress />
+        </Box>
+      </Container>
+    );
+  }
+
+  const listItem = (order, orderIndexOfList) => {
+    const getSecondary = () => {
+      let lines = [];
+      lines.push(moment(order.createdAt).format("YYYY-MM-DD HH:mm"));
+      lines.push(order.status);
+      lines.push("Subtotal: $" + order.subtotal["$numberDecimal"]);
+      lines.push("Tax: $" + order.tax["$numberDecimal"]);
+      lines.push("Total: $" + order.total["$numberDecimal"]);
+      const component = lines.map((line, index) => (
+        <div key={order._id + "_" + index}>{line}</div>
+      ));
+      return <React.Fragment>{component}</React.Fragment>;
+    };
+
+    return (
+      <React.Fragment key={order._id}>
+        <ListItem alignItems="flex-start">
+          <ListItemText primary={order._id} secondary={getSecondary()} />
+          <Collapse in={true} timeout="auto" unmountOnExit>
+            <Box sx={{ width: "100%" }}>
+              <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+                {order.products.map((product, index) => (
+                  <React.Fragment key={index + "_order" + product.product._id}>
+                    <ListItem alignItems="flex-start">
+                      <ListItemAvatar>
+                        <Avatar
+                          alt="Remy Sharp"
+                          src={"/upload/" + product.product.image}
+                        />
+                      </ListItemAvatar>
+                      <ListItemText
+                        primary={product.product.title}
+                        secondary={
+                          product.quantity +
+                          " x $" +
+                          product.product.price["$numberDecimal"] +
+                          " = $" +
+                          product.quantity *
+                            product.product.price["$numberDecimal"]
+                        }
+                      />
+                    </ListItem>
+                  </React.Fragment>
+                ))}
+              </List>
+            </Box>
+          </Collapse>
+        </ListItem>
+        {orderIndexOfList !== orders.length - 1 && (
+          <Divider component="li" />
+        )}
+      </React.Fragment>
+    );
   };
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
-      <h2>Shipping Address</h2>
-      <br />
-      <FormControl>
-        <Input
-          id="my-input"
-          aria-describedby="my-helper-text"
-          placeholder="First Name"
-          value={shippingAddress.firstName}
-          onChange={(s) => {
-            shippingAddress.fname = s.target.value;
-          }}
-          required
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          id="my-input"
-          aria-describedby="my-helper-text"
-          placeholder="Last Name"
-          value={shippingAddress.lastName}
-          onChange={(s) => {
-            shippingAddress.lname = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Address"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.address = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="City"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.city = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="State"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.state = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Zip Code"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.zip = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Phone Number"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.phone = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Email"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            shippingAddress.email = s.target.value;
-          }}
-        />
-      </FormControl>
-
-      <br />
-      <br />
-      <h2>Payment Information</h2>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Card Number"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            payment.cardNumber = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Expiration Date"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            payment.expirationDate = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <FormControl>
-        <Input
-          placeholder="Security Code"
-          id="my-input"
-          aria-describedby="my-helper-text"
-          onChange={(s) => {
-            payment.securityCode = s.target.value;
-          }}
-        />
-      </FormControl>
-      <br />
-      <br />
-      <Button
-        variant="contained"
-        color="primary"
-        type="submit"
-        onClick={onClick}
-      >
-        Submit
-      </Button>
-
-      <CustomSnackbar message={message} />
+      <h1>MyOrders</h1>
+      <List sx={{ width: "100%", bgcolor: "background.paper" }}>
+        {orders.map((order, index) => listItem(order, index))}
+      </List>
     </Container>
   );
 }

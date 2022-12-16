@@ -14,6 +14,8 @@ const orderSchema = new mongoose.Schema({
       quantity: Number,
     },
   ],
+  subtotal: mongoose.Decimal128,
+  tax: mongoose.Decimal128,
   total: mongoose.Decimal128,
   shippingAddress: String,
   shippingCost: mongoose.Decimal128,

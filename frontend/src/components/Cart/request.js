@@ -1,5 +1,5 @@
 import request from "@utils/request";
-import { API_CART } from "@constants/apis";
+import { API_CART, API_ORDER } from "@constants/apis";
 
 import { getItem } from "@utils/storage";
 
@@ -35,3 +35,18 @@ export const removeItem = async (id) => {
     method: "DELETE",
   });
 };
+
+export const removeByUserId = async (id) => {
+  return await request({
+    url: API_CART + "/user/" + id,
+    method: "DELETE",
+  });
+}
+
+export const createOrder = async (data) => {
+  return await request({
+    url: API_ORDER,
+    method: "POST",
+    data: data,
+  });
+}

@@ -5,11 +5,14 @@ import CartItem from "./CartItem";
 import Stack from "@mui/material/Stack";
 import { Button } from "@mui/material";
 
-import { fetchCart } from "./request";
+import { fetchCart, removeByUserId, createOrder } from "./request";
+import { getItem } from "@utils/storage";
+import { useNavigate } from "react-router-dom";
 
 export default function Products() {
   const { cart, removeFromCart, getSubtotal, getTax, getTotal, setCart } =
     useContext(CartContext);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     fetchCart().then((res) => {
@@ -23,6 +26,34 @@ export default function Products() {
       setCart(newCart);
     });
   }, []);
+
+  const handleCheckout = async () => {
+    // get user id
+    const userId = getItem("id");
+    // get cart items, and extract product id and quantity
+    const products = cart.map((item) => {
+      return {
+        _id: item._id,
+        quantity: item.qty,
+      };
+    });
+
+    // create order
+    const order = {
+      user: userId,
+      products, 
+    };
+
+    // send order to backend
+    try{
+      await createOrder(order);
+      await removeByUserId(getItem("id"));
+      setCart([]);
+      navigate("/profile");
+    }catch(err){
+      console.log(err);
+    }
+  };
 
   return (
     <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
@@ -51,7 +82,7 @@ export default function Products() {
             <hr />
             <h3>Total: ${getTotal()}</h3>
             <br />
-            <Button variant="contained" color="success">
+            <Button variant="contained" color="success" onClick={handleCheckout}>
               Checkout
             </Button>
           </div>

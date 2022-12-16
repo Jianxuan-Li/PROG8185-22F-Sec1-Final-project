@@ -42,20 +42,20 @@ export const CartProvider = (props) => {
 
   //get subtotal
   const getSubtotal = () => {
-    return parseFloat(cart.reduce(
+    return parseFloat(parseFloat(cart.reduce(
       (acc, item) => acc + item.price["$numberDecimal"] * item.qty,
       0
-    )).toFixed(2);
+    )).toFixed(2));
   };
 
   //get tax amount
   const getTax = () => {
-    return parseFloat(getSubtotal() * 0.13).toFixed(2);
+    return parseFloat(parseFloat(getSubtotal() * 0.13).toFixed(2));
   };
 
   //get total
   const getTotal = () => {
-    return parseFloat(getSubtotal() + getTax()).toFixed(2);
+    return parseFloat(parseFloat(getSubtotal() + getTax()).toFixed(2));
   };
   const addComment = (id, comment) => {
     const product = products.find((item) => {

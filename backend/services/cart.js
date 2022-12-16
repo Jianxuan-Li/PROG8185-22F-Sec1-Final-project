@@ -49,6 +49,21 @@ router.delete("/:id", async (req, res) => {
   }
 });
 
+// delete by user id
+router.delete("/user/:userId", async (req, res) => {
+  const { userId } = req.params;
+  try {
+    const c = await cartModel.deleteMany({ user: userId });
+    if (c) {
+      res.send({ message: "cart Deleted" });
+    } else {  
+      res.send({ message: "cart is empty" });
+    }
+  } catch (err) {
+    res.status(404).send({ message: "cart Not Found." });
+  }
+});
+
 // create cart item
 router.post("/", (req, res) => {
   const data = req.body;
