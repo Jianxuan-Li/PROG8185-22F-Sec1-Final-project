@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
-import moment from "moment";
 import Avatar from "@mui/material/Avatar";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Rating from "@mui/material/Rating";
 
 import MemberContext from "../../context/MemberContext";
-import CartContext from "../../context/CartContext";
+
+import { postCommentOnProduct } from "./request";
+import { getItem } from "@utils/storage";
 
 import "./comment.css";
 
-export default function CommentForm({productId}) {
+export default function CommentForm({ productId, onCommentPosted }) {
   const { login, currentUser } = useContext(MemberContext);
-  const { addComment } = useContext(CartContext);
 
   const [value, setValue] = React.useState("");
   const [rate, setRate] = React.useState(0);
@@ -25,30 +25,17 @@ export default function CommentForm({productId}) {
     return <div>Please login to comment</div>;
   }
 
-  const handleCreateComment = (e) => {
+  const handleCreateComment = async (e) => {
     e.preventDefault();
-    /*
-    const comment = {
-        id: 1,
-        user: {
-          id: 1,
-          name: "Aayush",
-          avatar: "/avatar/1.jpg",
-        },
-        created_at: moment().format('MMMM Do YYYY, h:mm:ss'),
-        text: "It is a really nice bike, I need it right now.",
-        rate: 5,
-      },
-    */
     const commentData = {
       text: value,
-      rate: rate,
-      created_at: moment().format("MMMM Do YYYY, h:mm:ss"),
-      user: currentUser
+      rating: rate,
+      user: getItem("id"),
     };
-    addComment(productId, commentData);
+    await postCommentOnProduct(productId, commentData);
     setValue("");
     setRate(0);
+    onCommentPosted();
   };
 
   return (

@@ -40,7 +40,14 @@ export default function Products() {
     }, delay);
   }, []);
 
-  if (loading || loadingComment) {
+  const handleCommentPosted = () => {
+    fetchComments(productId).then((res) => {
+      setComments(res);
+      setLoadingComment(false);
+    });
+  };
+
+  if (loading) {
     return (
       <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
         <Box sx={{ display: "flex", justifyContent: "center" }}>
@@ -75,37 +82,54 @@ export default function Products() {
           <List
             sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}
           >
-            {comments.map((comment, index) => (
-              <ListItem alignItems="flex-start" key={index}>
-                <ListItemAvatar>
-                  <Avatar alt="Remy Sharp" src={comment.user.avatar} />
-                </ListItemAvatar>
-                <ListItemText
-                  primary={comment.user.username}
-                  secondary={
-                    <React.Fragment>
-                      <Typography
-                        sx={{ display: "block" }}
-                        component="span"
-                        variant="body2"
-                        color="text.primary"
-                      >
-                        <Rating
-                          name="simple-controlled"
-                          value={comment.rating["$numberDecimal"]}
-                          readOnly
-                        />
-                      </Typography>
-                      {comment.text}
-                    </React.Fragment>
-                  }
-                />
-              </ListItem>
-            ))}
+            {loadingComment && (
+              <Container maxWidth="md" component="main" sx={{ mt: 10 }}>
+                <Box sx={{ display: "flex", justifyContent: "center" }}>
+                  <CircularProgress />
+                </Box>
+              </Container>
+            )}
+            {!loadingComment &&
+              comments.map((comment, index) => {
+                const rating =
+                  (comment.rating &&
+                    parseFloat(comment.rating["$numberDecimal"])) ||
+                  0;
+                return (
+                  <ListItem alignItems="flex-start" key={index}>
+                    <ListItemAvatar>
+                      <Avatar
+                        alt={comment.user && comment.user.username}
+                        src={(comment.user && comment.user.avatar) || null}
+                      />
+                    </ListItemAvatar>
+                    <ListItemText
+                      primary={comment.user && comment.user.username}
+                      secondary={
+                        <React.Fragment>
+                          <Typography
+                            sx={{ display: "block" }}
+                            component="span"
+                            variant="body2"
+                            color="text.primary"
+                          >
+                            <Rating
+                              name="simple-controlled"
+                              value={rating}
+                              readOnly
+                            />
+                          </Typography>
+                          {comment.text}
+                        </React.Fragment>
+                      }
+                    />
+                  </ListItem>
+                );
+              })}
           </List>
         </div>
         <div className="product-comment-form">
-          <CommentForm productId={productId} />
+          <CommentForm productId={productId} onCommentPosted={handleCommentPosted} />
         </div>
       </div>
     </Container>

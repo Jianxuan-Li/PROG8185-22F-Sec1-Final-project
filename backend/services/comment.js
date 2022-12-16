@@ -59,9 +59,9 @@ router.delete("/:id", async (req, res) => {
 });
 
 // create comment
-router.post("/", (req, res) => {
+router.post("/product/:id", (req, res) => {
   const data = req.body;
-
+  data.product = req.params.id;
   const comment = new commentModel(data);
   comment.save((err, comment) => {
     if (err) {

@@ -28,3 +28,11 @@ export const addToCart = async (data) => {
     data: data,
   });
 };
+
+export const postCommentOnProduct = async (id, data) => {
+  return await request({
+    url: API_COMMENT + "/" + id,
+    method: "POST",
+    data: data,
+  });
+};
