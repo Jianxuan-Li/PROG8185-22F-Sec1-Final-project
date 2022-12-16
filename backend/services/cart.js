@@ -16,7 +16,7 @@ router.get("/", async (req, res) => {
   res.send(users);
 });
 
-// get all carts of a user
+// get all carts of the gicen  user
 router.get("/user/:userId", async (req, res) => {
   const { userId } = req.params;
   const carts = await cartModel.find
@@ -24,6 +24,8 @@ router.get("/user/:userId", async (req, res) => {
   res.send(carts);
 });
 
+
+//get cart item by id
 router.get("/:id", async (req, res) => {
   const id = req.params.id;
   try {
@@ -56,7 +58,7 @@ router.delete("/user/:userId", async (req, res) => {
     const c = await cartModel.deleteMany({ user: userId });
     if (c) {
       res.send({ message: "cart Deleted" });
-    } else {  
+    } else {
       res.send({ message: "cart is empty" });
     }
   } catch (err) {
