@@ -68,9 +68,17 @@ export default function DenseAppBar() {
     <Box sx={{ flexGrow: 1 }}>
       <AppBar>
         <Toolbar>
-          <Typography variant="h6" color="inherit" component="div" edge="start">
+          <Typography variant="h6" color="inherit" component="div" edge="start" sx={{display: "flex"}}>
             <Link to="/" className="navLink">
               Products
+            </Link>
+            <Box sx={{ ml: 2 }}></Box>
+            <Link to="/members" className="navLink">
+              Members
+            </Link>
+            <Box sx={{ ml: 2 }}></Box>
+            <Link to="/product/add" className="navLink">
+              Add Product
             </Link>
           </Typography>
 
@@ -79,10 +87,8 @@ export default function DenseAppBar() {
             color="inherit"
             component="div"
             sx={{ ml: 2, flexGrow: 1 }}
+            edge="start"
           >
-            <Link to="/members" className="navLink">
-              Members
-            </Link>
           </Typography>
 
           <Badge badgeContent={cart.length} color="success">
