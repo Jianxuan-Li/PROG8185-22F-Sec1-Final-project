@@ -118,6 +118,13 @@ export default function Products() {
                               value={rating}
                               readOnly
                             />
+                            {comment.image && (
+                              <img
+                                className="comment-image"
+                                src={"/upload/" + comment.image}
+                                alt={comment.text}
+                              />
+                            )}
                           </Typography>
                           {comment.text}
                         </React.Fragment>
@@ -129,7 +136,10 @@ export default function Products() {
           </List>
         </div>
         <div className="product-comment-form">
-          <CommentForm productId={productId} onCommentPosted={handleCommentPosted} />
+          <CommentForm
+            productId={productId}
+            onCommentPosted={handleCommentPosted}
+          />
         </div>
       </div>
     </Container>

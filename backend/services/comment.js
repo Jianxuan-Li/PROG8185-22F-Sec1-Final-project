@@ -62,6 +62,24 @@ router.delete("/:id", async (req, res) => {
 router.post("/product/:id", (req, res) => {
   const data = req.body;
   data.product = req.params.id;
+
+  // extract image from form data
+  if (req.files) {
+    const image = req.files.image;
+    const ext = image.name.split(".").pop();
+    const filename = `image/${shortid.generate() + "." + ext}`;
+    const imagePath = path.join(staticPath, filename);
+
+    // save image to disk
+    image.mv(imagePath , (err) => {
+      if (err) {
+        console.log(err);
+      }
+    });
+
+    data.image = filename;
+  }
+
   const comment = new commentModel(data);
   comment.save((err, comment) => {
     if (err) {

@@ -34,5 +34,8 @@ export const postCommentOnProduct = async (id, data) => {
     url: API_COMMENT + "/" + id,
     method: "POST",
     data: data,
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
   });
 };
